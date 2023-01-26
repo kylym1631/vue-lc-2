@@ -1,8 +1,7 @@
 <script setup>
 import TeamMember from "@/components/Teams/TeamMember.vue";
-defineProps({
-  team: Object
-});
+import {useTeamStore} from "@/stores/TeamStore";
+let team = useTeamStore();
 </script>
 
 <template>
@@ -14,9 +13,16 @@ defineProps({
     </thead>
 
     <tbody>
-    <TeamMember v-for="member in team.members" :name="member.name" :email="member.email" :status="member.status" />
+      <TeamMember
+          v-for="member in team.members"
+          :email="member.email"
+          :name="member.name"
+          :status="member.status"
+      />
     </tbody>
   </table>
 
-  <p class="text-right text-gray-600 italic" v-show="team.members.length === team.spots">There are no remaining team spots. Upgrade to add more.</p>
+  <p class="text-right text-gray-600 italic"
+     v-show="! team.spotsRemaining"
+  >There are no remaining team spots. Upgrade to add more.</p>
 </template>
